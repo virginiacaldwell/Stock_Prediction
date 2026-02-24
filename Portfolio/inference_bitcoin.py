@@ -10,8 +10,20 @@ from io import BytesIO, StringIO
 
 model_dir = os.environ.get('SM_MODEL_DIR') 
 
-if model_dir not in sys.path:
-    sys.path.append(model_dir)
+# Get the directory of the current script (Portfolio folder)
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Move up one level to the root of your repo
+repo_root = os.path.abspath(os.path.join(current_dir, '..'))
+
+# Add the root to your python path
+if repo_root not in sys.path:
+    sys.path.insert(0, repo_root)
+
+# Now it can find 'src'
+from src.Custom_Classes import FeatureEngineer
+
+
 
 from src.Custom_Classes import FeatureEngineer
 
@@ -58,6 +70,7 @@ def output_fn(prediction, content_type):
     print("Formatting output...")
     res = prediction.tolist() if isinstance(prediction, (np.ndarray, np.generic)) else prediction
     return json.dumps(res), "application/json"
+
 
 
 
