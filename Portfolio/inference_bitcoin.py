@@ -13,17 +13,6 @@ model_dir = os.environ.get('SM_MODEL_DIR')
 if model_dir not in sys.path:
     sys.path.append(model_dir)
 
-
-current_dir = os.path.dirname(os.path.abspath(__file__))
-
-# Move up two levels to reach the root of 'stock_prediction'
-project_root = os.path.abspath(os.path.join(current_dir, '..', '..'))
-
-# Add that root to the Python path
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
-
-
 from src.Custom_Classes import FeatureEngineer
 
 
@@ -69,5 +58,6 @@ def output_fn(prediction, content_type):
     print("Formatting output...")
     res = prediction.tolist() if isinstance(prediction, (np.ndarray, np.generic)) else prediction
     return json.dumps(res), "application/json"
+
 
 
