@@ -111,7 +111,12 @@ def call_model_api(input_df):
 def display_explanation(input_df, session, aws_bucket):
     explainer_name = MODEL_INFO["explainer"]
     explainer = load_shap_explainer(session, aws_bucket, posixpath.join('explainer', explainer_name),os.path.join(tempfile.gettempdir(), explainer_name))
-    shap_values = explainer(input_df)
+
+    X_test_transformed = preprocessing_pipeline.transform(X_test)
+    feature_names = best_pipeline[1:4].get_feature_names_out()
+    X_test_transformed = pd.DataFrame(X_test_transformed, columns=feature_names)
+    shap_values = explainer(X_test_transformed)
+    
     st.subheader("🔍 Decision Transparency (SHAP)")
     fig, ax = plt.subplots(figsize=(10, 4))
     shap.plots.waterfall(shap_values[0], max_display=10)
