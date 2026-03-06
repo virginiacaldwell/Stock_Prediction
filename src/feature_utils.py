@@ -69,7 +69,7 @@ def extract_features_pair():
     dataset.index.name = 'Date'
     features = dataset.sort_index()
     features = features.reset_index(drop=True)
-    return features
+    return features[['AMD', 'DHI']]
 
 def get_bitcoin_historical_prices(days = 60):
     
