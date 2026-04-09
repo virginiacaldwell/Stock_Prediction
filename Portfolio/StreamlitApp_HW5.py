@@ -110,7 +110,7 @@ def call_model_api(input_df):
 # Local Explainability
 def display_explanation(input_df, session, aws_bucket):
     explainer_name = MODEL_INFO["explainer"]
-    explainer = load_shap_explainer(session, aws_bucket, posixpath.join('explainer', explainer_name),os.path.join(tempfile.gettempdir(), explainer_name))
+    explainer = load_shap_explainer(session, aws_bucket, posixpath.join('explainer', explainer_name), os.path.join(tempfile.gettempdir(), explainer_name))
     shap_values = explainer(input_df)
     st.subheader("🔍 Decision Transparency (SHAP)")
     fig, ax = plt.subplots(figsize=(10, 4))
