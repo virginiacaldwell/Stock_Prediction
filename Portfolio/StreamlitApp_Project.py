@@ -37,7 +37,7 @@ if project_root not in sys.path:
     sys.path.append(project_root)
 
 #from src.feature_utils import extract_features
-from project.Custom_Classes import DropHighMissingCols, TransactionFeatureEngineer, DropHighCorrelation
+from src.Custom_Classes import DropHighMissingCols, TransactionFeatureEngineer, DropHighCorrelation
 
 file_path = os.path.join(project_root, 'Portfolio/X_train.csv')
 
