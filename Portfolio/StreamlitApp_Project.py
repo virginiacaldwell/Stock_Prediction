@@ -181,8 +181,8 @@ if submitted:
         # 4. Trigger the SHAP explanation
         st.subheader("Why this prediction?")
         display_explanation(input_df, session, aws_bucket)
-        else:
-            st.error(f"Endpoint Error: {prediction}")
+    else:
+        st.error(f"Endpoint Error: {prediction}")
 
 
 original = dataset.iloc[0:1].to_dict()
