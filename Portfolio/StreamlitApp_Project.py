@@ -149,21 +149,18 @@ def display_explanation(input_df, session, aws_bucket):
 st.set_page_config(page_title="ML Deployment", layout="wide")
 st.title("👨‍💻 ML Deployment")
 
-#with st.form("pred_form"):
- #   st.subheader(f"Inputs")
- #   cols = st.columns(2)
- #   user_inputs = {}
+with st.form("pred_form"):
+    st.subheader(f"Inputs")
+    cols = st.columns(2)
+    user_inputs = {}
     
- #   for i, inp in enumerate(MODEL_INFO["inputs"]):
- #       with cols[i % 2]:
- #           user_inputs[inp['name']] = st.number_input(
- #               inp['name'].replace('_', ' ').upper(),
- #               min_value=inp['min'], max_value=inp['max'], value=inp['default'], step=inp['step']
- #           )
- #   
- #submitted = st.form_submit_button("Run Prediction")
-
-submitted = st.form_submit_button("Run Prediction")
+    for i, inp in enumerate(MODEL_INFO["inputs"]):
+        with cols[i % 2]:
+            user_inputs[inp['name']] = st.number_input(
+                inp['name'].replace('_', ' ').upper(),
+                min_value=inp['min'], max_value=inp['max'], value=inp['default'], step=inp['step']
+            ) 
+    submitted = st.form_submit_button("Run Prediction")
 
 if submitted:
  # 1. Create a single row from your slider inputs
@@ -178,8 +175,8 @@ if submitted:
     with st.spinner("Calling SageMaker..."):
         prediction, status = call_model_api(input_df)
             
-        if status == 200:
-            st.success(f"Result: {prediction}")
+    if status == 200:
+        st.success(f"Result: {prediction}")
                 
         # 4. Trigger the SHAP explanation
             st.subheader("Why this prediction?")
