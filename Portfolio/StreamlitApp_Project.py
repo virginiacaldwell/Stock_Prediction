@@ -41,7 +41,11 @@ from src.Custom_Classes import FeatureEngineer, AutoPowerTransformer
 
 file_path = os.path.join(project_root, 'Portfolio/X_train.csv')
 
-dataset = pd.read_csv(file_path)
+try:
+    dataset = pd.read_csv(file_path)
+except pd.errors.EmptyDataError:
+    st.error("The data file is empty. Please check your data source.")
+    dataset = pd.DataFrame() # Create an empty dataframe so the app doesn't break
 dataset = dataset.loc[:, ~dataset.columns.str.contains('^Unnamed')]
 
 # Access the secrets
