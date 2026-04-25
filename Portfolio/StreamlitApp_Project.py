@@ -179,7 +179,7 @@ if submitted:
         st.success(f"Result: {prediction}")
                 
         # 4. Trigger the SHAP explanation
-            st.subheader("Why this prediction?")
+        st.subheader("Why this prediction?")
             display_explanation(input_df, session, aws_bucket)
         else:
             st.error(f"Endpoint Error: {prediction}")
