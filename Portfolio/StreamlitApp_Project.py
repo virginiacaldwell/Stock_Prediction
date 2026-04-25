@@ -177,7 +177,7 @@ if submitted:
         
 # 3. Call your prediction function
     with st.spinner("Calling SageMaker..."):
-        prediction, status = call_model_api(input_df)
+        prediction, status = call_model_api(input_df.values.tolist())
             
     if status == 200:
         st.success(f"Result: {prediction}")
