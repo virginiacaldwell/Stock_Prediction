@@ -149,19 +149,44 @@ def display_explanation(input_df, session, aws_bucket):
 st.set_page_config(page_title="ML Deployment", layout="wide")
 st.title("👨‍💻 ML Deployment")
 
-with st.form("pred_form"):
-    st.subheader(f"Inputs")
-    cols = st.columns(2)
-    user_inputs = {}
+#with st.form("pred_form"):
+ #   st.subheader(f"Inputs")
+ #   cols = st.columns(2)
+ #   user_inputs = {}
     
-    for i, inp in enumerate(MODEL_INFO["inputs"]):
-        with cols[i % 2]:
-            user_inputs[inp['name']] = st.number_input(
-                inp['name'].replace('_', ' ').upper(),
-                min_value=inp['min'], max_value=inp['max'], value=inp['default'], step=inp['step']
-            )
-    
-    submitted = st.form_submit_button("Run Prediction")
+ #   for i, inp in enumerate(MODEL_INFO["inputs"]):
+ #       with cols[i % 2]:
+ #           user_inputs[inp['name']] = st.number_input(
+ #               inp['name'].replace('_', ' ').upper(),
+ #               min_value=inp['min'], max_value=inp['max'], value=inp['default'], step=inp['step']
+ #           )
+ #   
+ #submitted = st.form_submit_button("Run Prediction")
+
+submitted = st.form_submit_button("Run Prediction")
+
+    if submitted:
+        # 1. Create a single row from your slider inputs
+        # The keys here must match 'TRANSACTIONAMT', 'CARD1', 'CARD2' exactly
+        input_row = [user_inputs[k] for k in MODEL_INFO["keys"]]
+        
+        # 2. THE FIX: Multiply that row by 20 to create a "history" 
+        # so the FeatureEngineer doesn't return NaNs!
+        input_df = pd.DataFrame([input_row] * 20, columns=MODEL_INFO["keys"])
+        
+        # 3. Call your prediction function
+        with st.spinner("Calling SageMaker..."):
+            prediction, status = call_model_api(input_df)
+            
+            if status == 200:
+                st.success(f"Result: {prediction}")
+                
+                # 4. Trigger the SHAP explanation
+                st.subheader("Why this prediction?")
+                display_explanation(input_df, session, aws_bucket)
+            else:
+                st.error(f"Endpoint Error: {prediction}")
+
 
 original = dataset.iloc[0:1].to_dict()
 original.update(user_inputs)
