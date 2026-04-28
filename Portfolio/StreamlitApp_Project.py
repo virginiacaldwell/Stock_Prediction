@@ -68,7 +68,7 @@ sm_session = sagemaker.Session(boto_session=session)
 MODEL_INFO = {
     "endpoint"  : aws_endpoint,
     "explainer" : "explainer_sentiment.shap",
-    "pipeline"  : "finalized_fraud_model.tar.gz",
+    "pipeline"  : "finalized_loan_model.tar.gz",
     "keys"      : ['TransactionAmt','card1','card2'],
     "inputs"    : [{"name": k, "type": "number", "min": -1.0, "max": 1.0, "default": 0.0, "step": 0.01} for k in ['TransactionAmt','card1','card2']]
 }
