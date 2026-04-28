@@ -69,8 +69,8 @@ MODEL_INFO = {
     "endpoint"  : aws_endpoint,
     "explainer" : "explainer_sentiment.shap",
     "pipeline"  : "finalized_fraud_model.tar.gz",
-    "keys"      : ['TransactionAmt','card6_freq_enc','card3','C12'],
-    "inputs"    : [{"name": k, "type": "number", "min": -1.0, "max": 1.0, "default": 0.0, "step": 0.01} for k in ['TransactionAmt','card6_freq_enc','card3','C12']]
+    "keys"      : ['TransactionAmt','card1','card2'],
+    "inputs"    : [{"name": k, "type": "number", "min": -1.0, "max": 1.0, "default": 0.0, "step": 0.01} for k in ['TransactionAmt','card1','card2']]
 }
  
 def load_pipeline(_session, bucket, key):
